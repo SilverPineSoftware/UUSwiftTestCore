@@ -12,7 +12,6 @@ import UIKit
 #endif
 
 import XCTest
-import UUSwiftCore
 @testable import UUSwiftTestCore
 
 class UUTestCaseExtesionTests: XCTestCase
@@ -36,10 +35,21 @@ class UUTestCaseExtesionTests: XCTestCase
     {
         let a = uuRandomWord(20)
         XCTAssertNotNil(a)
-        UUDebugLog("\(a)")
+        NSLog("\(a)")
         
         let b = uuRandomWords(5, 10)
         XCTAssertNotNil(b)
-        UUDebugLog("\(b)")
+        NSLog("\(b)")
+    }
+    
+    func testRandomBytes()
+    {
+        let a = uuRandomBytes(length: 57)
+        XCTAssertNotNil(a)
+        NSLog("\(a)")
+        
+        let b = uuRandomBytes(length: 9)
+        XCTAssertNotNil(b)
+        NSLog("\(b)")
     }
 }

@@ -17,21 +17,13 @@ let package = Package(
 			targets: ["UUSwiftTestCore"]),
 	],
     
-    dependencies: [
-        .package(
-            url: "https://github.com/SilverPineSoftware/UUSwiftCore.git",
-            from: "1.1.3"
-        )
-    ],
-    
 	targets: [
 		.target(
 			name: "UUSwiftTestCore",
-			dependencies: ["UUSwiftCore"],
 			path: "Source"),
         .testTarget(
             name: "UUSwiftTestCoreTests",
-            dependencies: ["UUSwiftCore","UUSwiftTestCore"],
+            dependencies: ["UUSwiftTestCore"],
             path: "Test"),
 	],
 	swiftLanguageVersions: [

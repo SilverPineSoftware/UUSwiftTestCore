@@ -16,8 +16,8 @@ import XCTest
 public extension XCTestCase
 {
     func uuExpectationForMethod(
-        function : NSString = #function,
-        tag : NSString = "") -> XCTestExpectation
+        function : String = #function,
+        tag : String = "") -> XCTestExpectation
     {
         return expectation(description: "_\(function)_\(tag)_")
     }
@@ -33,12 +33,12 @@ public extension XCTestCase
         }
     }
     
-    func uuLogBeginTest(function : NSString = #function)
+    func uuLogBeginTest(function: String = #function)
     {
         NSLog("\n\n******************** BEGIN TEST \(function) ********************\n\n")
     }
     
-    func uuLogEndTest(function : NSString = #function)
+    func uuLogEndTest(function: String = #function)
     {
         NSLog("\n\n******************** END TEST \(function) ********************\n\n")
     }

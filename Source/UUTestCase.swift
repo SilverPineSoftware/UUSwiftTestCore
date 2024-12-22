@@ -35,12 +35,12 @@ public extension XCTestCase
     
     func uuLogBeginTest(function: String = #function)
     {
-        NSLog("\n\n******************** BEGIN TEST \(function) ********************\n\n")
+        UUTestLog("\n\n******************** BEGIN TEST \(function) ********************\n\n")
     }
     
     func uuLogEndTest(function: String = #function)
     {
-        NSLog("\n\n******************** END TEST \(function) ********************\n\n")
+        UUTestLog("\n\n******************** END TEST \(function) ********************\n\n")
     }
 }
 

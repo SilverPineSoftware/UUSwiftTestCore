@@ -35,21 +35,21 @@ class UUTestCaseExtesionTests: XCTestCase
     {
         let a = uuRandomWord(20)
         XCTAssertNotNil(a)
-        NSLog("\(a)")
+        UUTestLog("\(a)")
         
         let b = uuRandomWords(5, 10)
         XCTAssertNotNil(b)
-        NSLog("\(b)")
+        UUTestLog("\(b)")
     }
     
     func testRandomBytes()
     {
         let a = uuRandomBytes(length: 57)
         XCTAssertNotNil(a)
-        NSLog("\(a)")
+        UUTestLog("\(a)")
         
         let b = uuRandomBytes(length: 9)
         XCTAssertNotNil(b)
-        NSLog("\(b)")
+        UUTestLog("\(b)")
     }
 }

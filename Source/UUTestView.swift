@@ -19,7 +19,13 @@ public func UUTestHostScene() -> some Scene
 
 public extension Notification.Name
 {
+    static let uuTestSetTitleNotification = Notification.Name("UUTestSetTitleNotification")
     static let uuTestAddLineNotification = Notification.Name("UUTestAddLineNotification")
+}
+
+public func UUTestSetTItle(_ newTitle: String)
+{
+    NotificationCenter.default.post(name: .uuTestSetTitleNotification, object: newTitle)
 }
 
 public func UUTestAddLine(_ newLine: String)
@@ -32,7 +38,8 @@ public class UUTestHostViewModel: ObservableObject
     @Published var title: String = "Test Name"
     @Published var lines: [String] = []
     
-    private var notificationObserver: Any?
+    private var titleNotificationObserver: Any?
+    private var lineNotificationObserver: Any?
     private var incomingLines = PassthroughSubject<String, Never>()
     private var cancellables = Set<AnyCancellable>()
     
@@ -48,13 +55,26 @@ public class UUTestHostViewModel: ObservableObject
             }
             .store(in: &cancellables)
         
-        // Observe notifications
-        notificationObserver = NotificationCenter.default.addObserver(
+        titleNotificationObserver = NotificationCenter.default.addObserver(
+            forName: .uuTestSetTitleNotification,
+            object: nil,
+            queue: .main)
+        { [weak self] notification in
+            
+            if let newTitle = notification.object as? String
+            {
+                self?.title = newTitle
+            }
+        }
+        
+        lineNotificationObserver = NotificationCenter.default.addObserver(
             forName: .uuTestAddLineNotification,
             object: nil,
-            queue: .main
-        ) { [weak self] notification in
-            if let newLine = notification.object as? String {
+            queue: .main)
+        { [weak self] notification in
+            
+            if let newLine = notification.object as? String
+            {
                 self?.incomingLines.send(newLine)
             }
         }
@@ -62,7 +82,12 @@ public class UUTestHostViewModel: ObservableObject
     
     deinit
     {
-        if let observer = notificationObserver
+        if let observer = titleNotificationObserver
+        {
+            NotificationCenter.default.removeObserver(observer)
+        }
+        
+        if let observer = lineNotificationObserver
         {
             NotificationCenter.default.removeObserver(observer)
         }
@@ -72,6 +97,11 @@ public class UUTestHostViewModel: ObservableObject
 public struct UUTestHostView: View
 {
     @StateObject private var viewModel = UUTestHostViewModel()
+    
+    public init()
+    {
+        
+    }
     
     public var body: some View
     {

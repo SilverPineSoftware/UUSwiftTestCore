@@ -69,11 +69,11 @@ public class UUTestHostViewModel: ObservableObject
     }
 }
 
-struct UUTestHostView: View
+public struct UUTestHostView: View
 {
     @StateObject private var viewModel = UUTestHostViewModel()
     
-    var body: some View
+    public var body: some View
     {
         VStack
         {

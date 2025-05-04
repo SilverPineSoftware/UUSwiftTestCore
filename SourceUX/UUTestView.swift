@@ -23,7 +23,7 @@ public extension Notification.Name
     static let uuTestAddLineNotification = Notification.Name("UUTestAddLineNotification")
 }
 
-public func UUTestSetTItle(_ newTitle: String)
+public func UUTestSetTitle(_ newTitle: String)
 {
     NotificationCenter.default.post(name: .uuTestSetTitleNotification, object: newTitle)
 }

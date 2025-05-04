@@ -15,6 +15,9 @@ let package = Package(
 		.library(
 			name: "UUSwiftTestCore",
 			targets: ["UUSwiftTestCore"]),
+        .library(
+            name: "UUSwiftTestCoreUX",
+            targets: ["UUSwiftTestCoreUX"]),
 	],
     
 	targets: [
@@ -25,6 +28,10 @@ let package = Package(
             name: "UUSwiftTestCoreTests",
             dependencies: ["UUSwiftTestCore"],
             path: "Test"),
+        .target(
+            name: "UUSwiftTestCoreUX",
+            path: "SourceUX"
+        ),
 	],
 	swiftLanguageVersions: [
 		.v4_2,

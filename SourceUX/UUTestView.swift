@@ -47,7 +47,6 @@ public class UUTestHostViewModel: ObservableObject
     {
         // Debounce incoming lines to avoid rapid bursts adding too fast
         incomingLines
-            .debounce(for: .milliseconds(200), scheduler: DispatchQueue.main)
             .sink { [weak self] newLine in
                 withAnimation {
                     self?.lines.append(newLine)

@@ -21,6 +21,8 @@ public extension Notification.Name
 {
     static let uuTestSetTitleNotification = Notification.Name("UUTestSetTitleNotification")
     static let uuTestAddLineNotification = Notification.Name("UUTestAddLineNotification")
+    static let uuTestSetButtonTitleNotification = Notification.Name("UUTestSetButtonTitleNotification")
+    static let uuTestButtonClickedNotification = Notification.Name("UUTestButtonClickedNotification")
 }
 
 public func UUTestSetTitle(_ newTitle: String)
@@ -37,9 +39,12 @@ public class UUTestHostViewModel: ObservableObject
 {
     @Published var title: String = "Test Name"
     @Published var lines: [String] = []
+    @Published var buttonTitle: String = ""
+    var buttonClickObject: String? = nil
     
     private var titleNotificationObserver: Any?
     private var lineNotificationObserver: Any?
+    private var buttonNotificationObserver: Any?
     private var incomingLines = PassthroughSubject<String, Never>()
     private var cancellables = Set<AnyCancellable>()
     
@@ -77,6 +82,23 @@ public class UUTestHostViewModel: ObservableObject
                 self?.incomingLines.send(newLine)
             }
         }
+        
+        buttonNotificationObserver = NotificationCenter.default.addObserver(
+            forName: .uuTestSetButtonTitleNotification,
+            object: nil,
+            queue: .main)
+        { [weak self] notification in
+            
+            if let buttonTitle = notification.userInfo?["title"] as? String
+            {
+                self?.buttonTitle = buttonTitle
+            }
+            
+            if let buttonClickObject = notification.object as? String
+            {
+                self?.buttonClickObject = buttonClickObject
+            }
+        }
     }
     
     deinit
@@ -87,6 +109,11 @@ public class UUTestHostViewModel: ObservableObject
         }
         
         if let observer = lineNotificationObserver
+        {
+            NotificationCenter.default.removeObserver(observer)
+        }
+        
+        if let observer = buttonNotificationObserver
         {
             NotificationCenter.default.removeObserver(observer)
         }
@@ -127,6 +154,15 @@ public struct UUTestHostView: View
                     }
                 }
             }
+            
+            if !viewModel.buttonTitle.isEmpty
+            {
+                Button(viewModel.buttonTitle)
+                {
+                    NotificationCenter.default.post(name: .uuTestButtonClickedNotification, object: viewModel.buttonClickObject)
+                }
+                .padding()
+            }
         }
     }
 }
@@ -143,5 +179,22 @@ public struct UUTestHostView: View
             NotificationCenter.default.post(name: .uuTestAddLineNotification, object: "Line at \(Date())")
         }
         .padding()
+        
+        Button("Simulate Set Button Title")
+        {
+            NotificationCenter.default.post(name: .uuTestSetButtonTitleNotification, object: "buttonClicked", userInfo: ["title": "Click Me \(Date())"])
+        }
+        .padding()
+    }.onAppear()
+    {
+        NotificationCenter.default.addObserver(
+            forName: .uuTestSetButtonTitleNotification,
+            object: nil,
+            queue: .main)
+        { notification in
+            
+            print("object: \(notification.object ?? "nil")")
+        }
     }
-}*/
+}
+*/

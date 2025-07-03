@@ -42,6 +42,13 @@ public extension XCTestCase
     {
         UUTestLog("\n\n******************** END TEST \(function) ********************\n\n")
     }
+    
+    func uuTestWait(_ seconds: TimeInterval, _ name: String = #function,)
+    {
+        let exp = uuExpectationForMethod(tag: name)
+        
+        _ = XCTWaiter.wait(for: [exp], timeout: seconds)
+    }
 }
 
 // MARK: Random helpers from UUSwiftCore

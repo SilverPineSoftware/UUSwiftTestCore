@@ -52,4 +52,13 @@ class UUTestCaseExtesionTests: XCTestCase
         XCTAssertNotNil(b)
         UUTestLog("\(b)")
     }
+    
+    func testWait()
+    {
+        let start = Date.timeIntervalSinceReferenceDate
+        let wait = 2.0
+        uuTestWait(wait)
+        let end = Date.timeIntervalSinceReferenceDate
+        XCTAssert(end - start >= wait)
+    }
 }

@@ -35,6 +35,11 @@ public func UUTestAddLine(_ newLine: String)
     NotificationCenter.default.post(name: .uuTestAddLineNotification, object: newLine)
 }
 
+public func UUTestSetButtonTitle(_ buttonTitle: String, _ clickObject: String? = nil)
+{
+    NotificationCenter.default.post(name: .uuTestSetButtonTitleNotification, object: clickObject, userInfo: ["title":buttonTitle])
+}
+
 public class UUTestHostViewModel: ObservableObject
 {
     @Published var title: String = "Test Name"
